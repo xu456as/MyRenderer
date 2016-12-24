@@ -46,8 +46,9 @@ int MainWindow::Run()
 		}
 		// Otherwise, do animation/game stuff.
 		else
-		{	
-			Sleep(100);	
+		{
+			UpdateFrame();
+			Sleep(100);
 		}
 	}
 
@@ -70,6 +71,9 @@ bool MainWindow::Init(bool customized, int *height, int *width){
 	wc.lpszMenuName  = 0;
 	wc.lpszClassName = L"TemplateClass";
 
+	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+
+
 	if( !RegisterClass(&wc) )
 	{
 		MessageBox(0, L"RegisterClass Failed.", 0, 0);
@@ -79,19 +83,38 @@ bool MainWindow::Init(bool customized, int *height, int *width){
 	// Compute window rectangle dimensions based on requested client area dimensions.
 	RECT R = { 0, 0, mClientWidth, mClientHeight };
 	AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
-	int width  = R.right - R.left;
-	int height = R.bottom - R.top;
+	int recWidth  = R.right - R.left;
+	int recHeight = R.bottom - R.top;
 
 	mhMainWnd = CreateWindow(L"TemplateClass", mMainWndCaption.c_str(), 
-		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height, 0, 0, mhAppInst, 0); 
-	if( !mhMainWnd )
-	{
+		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, recWidth, recHeight, 0, 0, mhAppInst, 0); 
+	if( !mhMainWnd ){
 		MessageBox(0, L"CreateWindow Failed.", 0, 0);
 		return false;
 	}
 
+	BITMAPINFO bi = { { sizeof(BITMAPINFOHEADER), mClientWidth, -mClientHeight, 1, 32, BI_RGB, 
+		mClientWidth * mClientHeight * 4, 0, 0, 0, 0 }  };
+
+	void* ptr;
+	HDC hdc = GetDC(mhMainWnd);
+	screenDC = CreateCompatibleDC(hdc);
+	ReleaseDC(mhMainWnd, hdc);
+	screenHb = CreateDIBSection(screenDC, &bi, DIB_RGB_COLORS, &ptr, nullptr, 0);
+
+	if(!screenHb){
+		MessageBox(0, L"CreateDIB Failed.", 0, 0);
+		return false;
+	}
+
+	screenOb = (HBITMAP)SelectObject(screenDC, screenHb);
+
+	screenFb = (UINT32*)ptr;
+
 	ShowWindow(mhMainWnd, SW_SHOW);
 	UpdateWindow(mhMainWnd);
+
+	memset(screenFb, 0, 4 * mClientHeight* mClientWidth);
 
 	return true;
 }
@@ -108,4 +131,16 @@ LRESULT MainWindow::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 	}	
 }
 
-
+void MainWindow::UpdateFrame(){
+	static int mod = 0;
+	if(mod==0){
+		memset(screenFb, -1, 4 *mClientWidth * mClientHeight);
+	}
+	else{
+		memset(screenFb, 0, 4 *mClientWidth * mClientHeight);
+	}
+	mod = (mod+1)%2;
+	HDC hDC = GetDC(mhMainWnd);
+	BitBlt(hDC, 0, 0, mClientWidth, mClientHeight, screenDC, 0, 0, SRCCOPY);
+	ReleaseDC(mhMainWnd, hDC);
+}

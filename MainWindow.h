@@ -12,9 +12,11 @@ public :
 
 	int Run();
 
-	virtual bool Init(bool customized, int *height, int *width);
+	virtual bool Init(bool customized = 0, int *height = nullptr, int *width = nullptr);
 
 	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	virtual void UpdateFrame();
 
 	// Convenience overrides for handling mouse input.
 	virtual void OnMouseDown(WPARAM btnState, int x, int y){ }
@@ -29,4 +31,9 @@ protected:
 	int mClientWidth;
 	int mClientHeight;
 
+	HDC screenDC;
+	HBITMAP screenHb;
+	HBITMAP screenOb;
+
+	UINT32* screenFb;
 };
