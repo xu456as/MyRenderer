@@ -16,9 +16,11 @@ public :
 
 	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	virtual void UpdateFrame();
+	virtual void UpdateScene();
+	virtual void DrawScene(){}
 
 	// Convenience overrides for handling mouse input.
+	virtual void OnResize();
 	virtual void OnMouseDown(WPARAM btnState, int x, int y){ }
 	virtual void OnMouseUp(WPARAM btnState, int x, int y)  { }
 	virtual void OnMouseMove(WPARAM btnState, int x, int y){ }

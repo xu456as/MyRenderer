@@ -47,7 +47,8 @@ int MainWindow::Run()
 		// Otherwise, do animation/game stuff.
 		else
 		{
-			UpdateFrame();
+			DrawScene();
+			UpdateScene();
 			Sleep(100);
 		}
 	}
@@ -87,7 +88,8 @@ bool MainWindow::Init(bool customized, int *height, int *width){
 	int recHeight = R.bottom - R.top;
 
 	mhMainWnd = CreateWindow(L"TemplateClass", mMainWndCaption.c_str(), 
-		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, recWidth, recHeight, 0, 0, mhAppInst, 0); 
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+		CW_USEDEFAULT, CW_USEDEFAULT, recWidth, recHeight, 0, 0, mhAppInst, 0); 
 	if( !mhMainWnd ){
 		MessageBox(0, L"CreateWindow Failed.", 0, 0);
 		return false;
@@ -111,10 +113,10 @@ bool MainWindow::Init(bool customized, int *height, int *width){
 
 	screenFb = (UINT32*)ptr;
 
+	memset(screenFb, 0, 4 * mClientHeight* mClientWidth);
+
 	ShowWindow(mhMainWnd, SW_SHOW);
 	UpdateWindow(mhMainWnd);
-
-	memset(screenFb, 0, 4 * mClientHeight* mClientWidth);
 
 	return true;
 }
@@ -126,21 +128,26 @@ LRESULT MainWindow::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 		PostQuitMessage(0);
 		return 0;
 
+	//case WM_SIZE:
+	////	mClientWidth = 0xffff & lParam;
+	////	mClientHeight = 0xffff & (lParam >> 16);
+	//	OnResize();
+
+	//	return 0;
+
+
 	default:
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}	
 }
 
-void MainWindow::UpdateFrame(){
-	static int mod = 0;
-	if(mod==0){
-		memset(screenFb, -1, 4 *mClientWidth * mClientHeight);
-	}
-	else{
-		memset(screenFb, 0, 4 *mClientWidth * mClientHeight);
-	}
-	mod = (mod+1)%2;
+void MainWindow::UpdateScene(){
+//	*(screenFb + mClientWidth*40 + 40) = -1;
 	HDC hDC = GetDC(mhMainWnd);
 	BitBlt(hDC, 0, 0, mClientWidth, mClientHeight, screenDC, 0, 0, SRCCOPY);
 	ReleaseDC(mhMainWnd, hDC);
+}
+
+void MainWindow::OnResize(){
+	
 }

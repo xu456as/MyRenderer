@@ -1,4 +1,4 @@
-﻿生成启动时间为 2016/12/24 23:46:50。
+﻿生成启动时间为 2016/12/27 1:02:03。
      1>项目“J:\Project\cpp\MyRenderer\MyRenderer.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\MyRenderer.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
@@ -25,4 +25,4 @@
 
 生成成功。
 
-已用时间 00:00:01.58
+已用时间 00:00:01.48

@@ -105,6 +105,11 @@ namespace BasicMath
 		int x;
 		int y;
 
+		SceenPoint(int x, int y){
+			this->x = x;
+			this->y = y;
+		}
+
 	};
 	/*
 		End screen point definition
@@ -115,4 +120,6 @@ namespace BasicMath
 
 	template<typename T>
 	T Lerp(T from, T to, float x);
+
+	int gcd(int x, int y);
 }
