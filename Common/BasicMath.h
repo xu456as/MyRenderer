@@ -32,17 +32,17 @@ namespace BasicMath
 		void Normalize();
 
 		//cross product
-		Vector4 operator* (const Vector4& x) const;
+		Vector4 Cross(const Vector4& x) const;
 		
-
-		Vector4 operator* (const Matrix4x4& x) const;
+		Vector4 Apply (const Matrix4x4& x) const;
 
 		Vector4 operator- (const Vector4& x) const ;
 
-		//dot product
-		static float DotProduct (const Vector4& x, const Vector4& y);
+		
 		
 	};
+	//dot product
+	float operator* (const Vector4& x, const Vector4& y);
 
 	Vector4 operator+ (const Vector4& x, const Vector4& y);
 
@@ -58,7 +58,7 @@ namespace BasicMath
 
 	struct Matrix4x4{
 
-		friend Vector4 Vector4::operator*(const Matrix4x4& x) const ;
+		friend Vector4 Vector4::Apply(const Matrix4x4& x) const ;
 
 		float m[4][4];
 
@@ -114,6 +114,7 @@ namespace BasicMath
 	/*
 		End screen point definition
 	*/
+
 
 	template<typename T>
 	T Clamp(T x, T min, T max);

@@ -1,36 +1,5 @@
-#include <MainWindow.h>
-#include <BasicMath.h>
-class Renderer : public MainWindow {
-public:
-	Renderer(HINSTANCE hInstance);
-	~Renderer();
-
-	bool Init(bool customized = 0, int *height = nullptr, int *width = nullptr) override;
-
-	void OnResize();
-
-	void UpdateScene() override;
-	void DrawScene() override;
-
-
-protected:
-	
-	void DrawPixel(int x,int y, UINT32 color);
-	void DrawLine(BasicMath::SceenPoint p1, BasicMath::SceenPoint p2, UINT32 color);
-	
-
-private:
-
-	void *globalPtr;
-	UINT32 *globalMem;
-
-	UINT32 **frameBuf;
-	float **zBuf;
-
-	UINT32 bgColor;
-	UINT32 frColor;
-};
-
+#include <algorithm>
+#include<Renderer.h>
 int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, PSTR cmdLine, int showMode){
 	Renderer theApp(hCurInst);
 
@@ -45,7 +14,6 @@ Renderer::Renderer(HINSTANCE Hinst)
 {
 
 }
-
 Renderer::~Renderer(){
 	if(globalPtr)
 		delete[] globalPtr;
@@ -75,22 +43,44 @@ bool Renderer::Init(bool customized, int* height, int* width){
 }
 
 void Renderer::DrawPixel(int x,int y, UINT32 color){
+	--x;--y;
 	if(x<0 || x>=mClientWidth)
 		return;
 	if(y<0 || y>=mClientHeight)
 		return;
 
 	frameBuf[y][x] = color;
+
 }
 
 void Renderer::DrawLine(BasicMath::SceenPoint p1, BasicMath::SceenPoint p2, UINT32 color){
 
 	int absX = abs(p1.x - p2.x);
 	int absY = abs(p1.y - p2.y);
+	if(absX==0 && absY==0){
+		DrawPixel(p1.x, p2.y, color);
+		return;
+	}
+	if(absX ==0){
+		int minY = min(p1.y, p2.y);
+		int maxY = max(p1.y, p2.y);
+		for(int i = minY;i<=maxY;++i){
+			DrawPixel(p1.x, i, color);
+		}
+		return;
+	}
+	if(absY ==0){
+		int minX = min(p1.x, p2.x);
+		int maxX = max(p1.x, p2.x);
+		for(int i = minX;i<=maxX;++i){
+			DrawPixel(i, p1.y, color);
+		}
+		return;
+	}
 	int a = BasicMath::gcd(absX, absY);
 	absX /= a;
 	absY /= a;
-	if(absX<absY){
+	if(absX>absY){
 		if(p2.x<p1.x){
 			BasicMath::SceenPoint temp = p1;
 			p1 = p2;
@@ -100,11 +90,12 @@ void Renderer::DrawLine(BasicMath::SceenPoint p1, BasicMath::SceenPoint p2, UINT
 		int curY = p1.y;
 		int unitY = (p1.y<p2.y)?1:-1;
 		for(int i=p1.x;i<=p2.x;++i){
-			DrawPixel(curY, i, color);
-			if(++acc == absX){
-				acc -= absY;
+			DrawPixel(i, curY, color);
+			acc += absY;
+			if(acc >= absX){
+				acc -= absX;
 				curY += unitY;
-				DrawPixel(curY, i, color);
+				DrawPixel(i, curY, color);
 			}
 		}
 	}
@@ -118,11 +109,12 @@ void Renderer::DrawLine(BasicMath::SceenPoint p1, BasicMath::SceenPoint p2, UINT
 		int curX = p1.x;
 		int unitX = (p1.x<p2.x)?1:-1;
 		for(int i=p1.y;i<=p2.y;++i){
-			DrawPixel(i, curX, color);
-			if(++acc == absY){
-				acc -= absX;
+			DrawPixel(curX, i, color);
+			acc += absX;
+			if(acc >= absY){
+				acc -= absY;
 				curX += unitX;
-				DrawPixel(i, curX, color);
+				DrawPixel(curX, i, color);
 			}
 		}
 	}
@@ -139,7 +131,5 @@ void Renderer::UpdateScene(){
 
 
 void Renderer::DrawScene(){
-	
-	DrawLine( BasicMath::SceenPoint(420, 440), BasicMath::SceenPoint(40, 20), -1);
-	DrawLine( BasicMath::SceenPoint(440, 420), BasicMath::SceenPoint(20, 40), -1);
+	DrawLine({ 0, 0 }, { 400, 425 }, -1);
 }

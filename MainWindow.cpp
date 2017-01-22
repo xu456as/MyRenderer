@@ -128,6 +128,12 @@ LRESULT MainWindow::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 		PostQuitMessage(0);
 		return 0;
 
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		return 0;
+
 	//case WM_SIZE:
 	////	mClientWidth = 0xffff & lParam;
 	////	mClientHeight = 0xffff & (lParam >> 16);

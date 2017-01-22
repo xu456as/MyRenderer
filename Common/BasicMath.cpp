@@ -15,7 +15,7 @@ namespace BasicMath
 		v[1] /= length;
 		v[2] /= length;
 	}
-	Vector4 Vector4::operator* (const Vector4& x) const{
+	Vector4 Vector4::Cross (const Vector4& x) const{
 		Vector4 retVec;
 		retVec[0] = this->v[1] * x[2] - this->v[2] * x[1];
 		retVec[1] = this->v[2] * x[0] - this->v[0] * x[2];
@@ -24,7 +24,7 @@ namespace BasicMath
 
 		return retVec;
 	}
-	Vector4 Vector4::operator* (const Matrix4x4& x) const{
+	Vector4 Vector4::Apply (const Matrix4x4& x) const{
 		
 		Vector4 retVec;
 		for(int i=0;i<4;++i){
@@ -39,7 +39,7 @@ namespace BasicMath
 		return Vector4(this->v[0]-x[0], this->v[1]-x[1], this->v[2]-x[2], this->v[3]-x[3]);
 	}
 
-	float Vector4::DotProduct(const Vector4& x, const Vector4& y){
+	float operator* (const Vector4& x, const Vector4& y){
 		float sum = 0.0f;
 		for(int i=0;i<3;++i){
 			sum += x[i] *y[i];
@@ -112,26 +112,26 @@ namespace BasicMath
 		Vector4 zAxis = at - eye;
 		zAxis.Normalize();
 
-		Vector4 xAxis =  up * zAxis;
+		Vector4 xAxis =  up.Cross(zAxis);
 		xAxis.Normalize();
 
-		Vector4 yAxis = zAxis * xAxis;
+		Vector4 yAxis = zAxis.Cross(xAxis);
 		yAxis.Normalize();
 
 		m[0][0] = xAxis[0];
 		m[1][0] = xAxis[1];
 		m[2][0] = xAxis[2];
-		m[3][0] =  -Vector4::DotProduct(xAxis, eye);
+		m[3][0] =  -(xAxis * eye);
 
 		m[0][1] = yAxis[0];
 		m[1][1] = yAxis[1];
 		m[2][1] = yAxis[2];
-		m[3][1] =  -Vector4::DotProduct(yAxis, eye);
+		m[3][1] = -(yAxis * eye);
 
 		m[0][2] = zAxis[0];
 		m[1][2] = zAxis[1];
 		m[2][2] = zAxis[2];
-		m[3][2] =  -Vector4::DotProduct(zAxis, eye);
+		m[3][2] = -(zAxis * eye);
 
 		m[0][3] = m[1][3] = m[2][3] = 0.0f;
 		m[3][3] = 1.0f;
@@ -186,8 +186,6 @@ namespace BasicMath
 		return retMat;
 	}
 	
-
-
 	/*
 		End Matrix definition and operation
  	*/
@@ -207,6 +205,6 @@ namespace BasicMath
 	}
 
 	int gcd(int x, int y){
-		return x%y==0?y:gcd(y, x%y);
+		return y==0?x:gcd(y, x%y);
 	}
 }
