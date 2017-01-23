@@ -1,3 +1,4 @@
+#pragma once
 #include <WindowsX.h>
 #include <Windows.h>
 #include <string>

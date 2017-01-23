@@ -18,10 +18,10 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
+    <ClCompile Include="Common\BasicMath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Common\BasicMath.cpp">
+    <ClCompile Include="Drawer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +32,13 @@
     <ClInclude Include="Common\BasicMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="Common\GeometryUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Common\GeometryUtil.h">
+    <ClInclude Include="Drawer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

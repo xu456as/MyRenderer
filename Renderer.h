@@ -1,35 +1,27 @@
-#include <MainWindow.h>
-#include <BasicMath.h>
-class Renderer : public MainWindow {
+#pragma once
+#include<Drawer.h>
+#include<BasicMath.h>
+#include<GeometryUtil.h>
+using namespace BasicMath;
+using namespace GeometryUtil;
+
+class Renderer : Drawer {
 public:
-	Renderer(HINSTANCE hInstance);
+	Renderer(HWND hInst);
 	~Renderer();
-
-	virtual bool Init(bool customized = 0, int *height = nullptr, int *width = nullptr) override;
-
-	void OnResize();
-
-	//LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual void UpdateScene() override;
 	virtual void DrawScene() override;
 
-
 protected:
 
-	void DrawPixel(int x,int y, UINT32 color);
-	void DrawLine(BasicMath::SceenPoint p1, BasicMath::SceenPoint p2, UINT32 color);
-	void ClearBuffer();
+	void RenderTrapezoid(Trapezoid& trape);
+	
 
+	void DrawScanline(const Scanline& scanline);
 
-private:
+	void DrawPrimitive(const Vertex& v1, const Vertex& v2, const Vertex& v3);
 
-	void *globalPtr;
-	UINT32 *globalMem;
-
-	UINT32 **frameBuf;
-	float **zBuf;
-
-	UINT32 bgColor;
-	UINT32 frColor;
+protected:
+	Transform transform;
 };
