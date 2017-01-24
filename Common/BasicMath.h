@@ -124,4 +124,6 @@ namespace BasicMath
 	T Lerp(T from, T to, float x);
 
 	int gcd(int x, int y);
+
+	bool EqualF(float f1, float f2);
 }

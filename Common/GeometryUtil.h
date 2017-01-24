@@ -12,10 +12,15 @@ namespace GeometryUtil{
 	struct Vertex {
 		BasicMath::Vector4 pos;
 		Color color;
+		float rhw;
 
 		void InitToRHW();
 		
 		Vertex operator+ (const Vertex& value);
+
+		Vertex operator- (const Vertex& value);
+
+		Vertex operator* (const float& num);
 		
 
 		static Vertex GenerateMiddleVert(const Vertex& v1, const Vertex& v2, float weight);
@@ -34,8 +39,6 @@ namespace GeometryUtil{
 		int x;
 		int y;
 		int w;
-
-		void Draw();
 	};
 
 	struct Trapezoid {
@@ -47,10 +50,10 @@ namespace GeometryUtil{
 		Vertex curRightVert;
 		
 
-		static std::vector<Trapezoid> GenerateTrapeZoid(const Vertex& v1, const Vertex& v2, const Vertex& v3);
+		static std::vector<Trapezoid> GenerateTrapezoid(const Vertex& v1, const Vertex& v2, const Vertex& v3);
 
 
-		void ComputeCurVertices();
+		void ComputeCurVertices(float y);
 
 		Scanline GenerateScanlineByHeight(int y);
 
@@ -64,23 +67,13 @@ namespace GeometryUtil{
 		float w;
 		float h;
 
-		Transform(int screenW, int screenH) {
-			float aspectRatio = (float)screenW / screenH;
-			world.SetIdentity();
-			view.SetIdentity();
-			project.SetIdentity();
-			wvprj.SetIdentity();
-			w = (float)screenW;
-			h = (float)screenH;
-			wvprj = world * view * project;
+		Transform(int screenW, int screenH);
 
-		}
-
-		void Apply();
+		void Apply(Vertex& x);
 
 		int CheckCVV(const Vertex& v);
 
-		Vertex Homogenize(const Vertex& v);
+		void Homogenize(Vertex& v);
 	};
 
 

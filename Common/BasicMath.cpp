@@ -1,4 +1,5 @@
 #include <BasicMath.h>
+#include<math.h>
 namespace BasicMath
 {
 	/*
@@ -206,5 +207,9 @@ namespace BasicMath
 
 	int gcd(int x, int y){
 		return y==0?x:gcd(y, x%y);
+	}
+
+	bool EqualF(float f1, float f2) {
+		return fabs(f1 - f2) <= 0.0001f;
 	}
 }

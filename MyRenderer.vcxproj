@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common\BasicMath.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClInclude Include="Common\BasicMath.h" />
     <ClInclude Include="Common\GeometryUtil.h" />
     <ClInclude Include="MainWindow.h" />
@@ -83,6 +84,7 @@
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Common\GeometryUtil.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Drawer.cpp" />
   </ItemGroup>
