@@ -14,6 +14,7 @@ public:
 
 	virtual void UpdateScene() override;
 	virtual void DrawScene() override;
+	virtual void OnResize() override;
 
 
 protected:
@@ -25,7 +26,7 @@ protected:
 	
 
 
-private:
+protected:
 
 	void *globalPtr;
 	UINT32 *globalMem;

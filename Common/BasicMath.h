@@ -1,6 +1,7 @@
 #pragma once
 #include <cstring>
 #include<cmath>
+#include<initializer_list>
 namespace BasicMath
 {
 	/*
@@ -8,12 +9,24 @@ namespace BasicMath
  	*/
 
 	struct Matrix4x4;
-	struct Vector4{
 	
+	struct Vector4{
+
+		
+
 		float v[4];
 		Vector4(){
 			memset(v, 0, sizeof(v));
 		}
+
+		Vector4(std::initializer_list<float> list) {
+			int cur = 0;
+			for (auto it = list.begin(); it != list.end(); ++it) {
+				v[cur++] = *it;
+			}
+			
+		}
+
 		Vector4(float x, float y, float z, float w){
 			v[0] = x;v[1] = y;
 			v[2] = z;v[3] = w;

@@ -1,12 +1,16 @@
 #include<Renderer.h>
 
-Renderer::Renderer(HWND hInst)
+Renderer::Renderer(HINSTANCE hInst)
 	:Drawer(hInst), transform(mClientWidth, mClientHeight)
 {
 	
 }
 
 Renderer::~Renderer() {}
+
+bool Renderer::Init(bool customized, int *height , int *width ) {
+	return Drawer::Init(customized, height, width);
+}
 
 void Renderer::DrawScene() {
 
@@ -32,6 +36,34 @@ void Renderer::RenderTrapezoid(Trapezoid& trape) {
 
 void Renderer::DrawScanline(const Scanline& scanline) {
 
+	float* curZBufLn = zBuf[scanline.y];
+	UINT32* curFBufLn = frameBuf[scanline.y];
+
+	int beg = scanline.x, ed = beg + scanline.w;
+
+	Vertex curVert = scanline.curVert;
+
+	for (int i = beg; i <= ed; ++i) {
+		if (i < 0 || i >= mClientWidth)
+			break;
+
+		float rhw = curVert.rhw;
+		float w = 1.0f / rhw;
+		
+		curZBufLn[i] = rhw;
+
+		float r = curVert.color.r * w;
+		float g = curVert.color.g * w;
+		float b = curVert.color.b * w;
+
+		int R = (int)(255.0f * r);
+		int G = (int)(255.0f * g);
+		int B = (int)(255.0f * b);
+
+		curFBufLn[i] = (R << 16) | (G << 8) | (B);
+
+		curVert = curVert + scanline.step;
+	}
 }
 
 void Renderer::DrawPrimitive(const Vertex& v1, const Vertex& v2, const Vertex& v3) {

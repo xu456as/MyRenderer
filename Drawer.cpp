@@ -1,13 +1,13 @@
 #include <algorithm>
 #include<Drawer.h>
-int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, PSTR cmdLine, int showMode){
-	Drawer theApp(hCurInst);
-
-	if(!theApp.Init()){
-		return 0;
-	}
-	return theApp.Run();
-}
+//int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, PSTR cmdLine, int showMode){
+//	Drawer theApp(hCurInst);
+//
+//	if(!theApp.Init()){
+//		return 0;
+//	}
+//	return theApp.Run();
+//}
 
 Drawer::Drawer(HINSTANCE Hinst)
 :MainWindow(Hinst), globalMem(nullptr), globalPtr(nullptr), frameBuf(nullptr), zBuf(nullptr)
@@ -37,7 +37,8 @@ bool Drawer::Init(bool customized, int* height, int* width){
 	for(int i = 0;i<mClientHeight;++i){
 		frameBuf[i] = screenFb + i*mClientWidth;
 		zBuf[i] = (float*)globalMem + i*mClientWidth;
-	}	
+		memset(zBuf[i], 0, sizeof(float) * mClientWidth);
+	}
 
 	return true;
 }
@@ -135,5 +136,8 @@ void Drawer::DrawScene(){
 }
 
 void Drawer::ClearBuffer() {
-
+	for (int i = 0; i < mClientHeight; ++i) {
+		memset(frameBuf[i], -1, sizeof(UINT32) * mClientWidth);
+		memset(zBuf[i], 0, sizeof(float) * mClientWidth);
+	}
 }

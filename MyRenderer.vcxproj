@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common\BasicMath.cpp" />
+    <ClCompile Include="mian.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClInclude Include="Common\BasicMath.h" />
     <ClInclude Include="Common\GeometryUtil.h" />

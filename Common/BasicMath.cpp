@@ -1,7 +1,8 @@
+#pragma once
 #include <BasicMath.h>
 #include<math.h>
-namespace BasicMath
-{
+using namespace BasicMath;
+
 	/*
 		Start Vector definition and operation
  	*/
@@ -57,9 +58,7 @@ namespace BasicMath
 		return Vector4(x[0]*num, x[1]*num, x[2]*num, x[3]);
 	}
 
-	/*
-		End Vector definition and operation
- 	*/
+	
 
 	/*
 		Start Matrix definition and operation
@@ -187,9 +186,7 @@ namespace BasicMath
 		return retMat;
 	}
 	
-	/*
-		End Matrix definition and operation
- 	*/
+	
 	template<typename T>
 	T Clamp(T x, T min, T max){
 		if(x<min)
@@ -206,10 +203,9 @@ namespace BasicMath
 	}
 
 	int gcd(int x, int y){
-		return y==0?x:gcd(y, x%y);
+		return y==0?x:(::gcd(y, x%y));
 	}
 
 	bool EqualF(float f1, float f2) {
 		return fabs(f1 - f2) <= 0.0001f;
 	}
-}

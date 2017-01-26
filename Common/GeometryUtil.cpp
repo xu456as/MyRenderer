@@ -200,8 +200,11 @@ Transform::Transform(int screenW, int screenH) {
 	wvprj.SetIdentity();
 	w = (float)screenW;
 	h = (float)screenH;
-	wvprj = world * view * project;
+	CountWVProj();
+}
 
+void Transform::CountWVProj() {
+	wvprj = world * view * project;
 }
 
 void Transform::Apply(Vertex& x) {

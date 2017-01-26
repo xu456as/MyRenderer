@@ -69,6 +69,8 @@ namespace GeometryUtil{
 
 		Transform(int screenW, int screenH);
 
+		void CountWVProj();
+
 		void Apply(Vertex& x);
 
 		int CheckCVV(const Vertex& v);
