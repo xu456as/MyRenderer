@@ -31,7 +31,7 @@ using namespace BasicMath;
 		Vector4 retVec;
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
-				retVec[j] += this->v[i] * x.m[j][i];
+				retVec[i] += this->v[j] * x.m[j][i];
 			}
 		}
 		return retVec;
@@ -138,7 +138,7 @@ using namespace BasicMath;
 	}
 
 	void Matrix4x4::SetPerspective(float fovAngleY, float aspectRatio, float nearZ, float farZ) {
-		float tan = tanf(aspectRatio / 2);
+		float tan = tanf(fovAngleY / 2);
 		SetZero();
 
 		m[0][0] = 1 / (aspectRatio * tan);

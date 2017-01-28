@@ -133,6 +133,10 @@ void Drawer::UpdateScene(){
 	MainWindow::UpdateScene();
 }
 
+LRESULT Drawer::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	return MainWindow::MsgProc(hwnd, msg, wParam, lParam);
+}
+
 
 void Drawer::DrawScene(){
 	//MessageBox(0, L"21", L"11", 0);

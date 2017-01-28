@@ -10,7 +10,7 @@ public:
 
 	//void OnResize();
 
-	//LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual void UpdateScene() override;
 	virtual void DrawScene() override;

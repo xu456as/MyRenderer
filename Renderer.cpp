@@ -1,7 +1,8 @@
 #include<Renderer.h>
-
+#include<xnamath.h>
+#include<assert.h>
 Renderer::Renderer(HINSTANCE hInst)
-	:Drawer(hInst), transform(mClientWidth, mClientHeight)
+	:Drawer(hInst), transform(mClientWidth, mClientHeight), lastPoint{0, 0}
 {
 	
 }
@@ -16,36 +17,72 @@ void Renderer::DrawScene() {
 	ClearBuffer();
 
 
-	LookAtZero(0, 0,15);
+	LookAtZero(5, 0, 0);
 
-	DrawBox(0);
+	DrawBox();
 
-	/*Scanline scanline;
-	scanline.y = 100;
-	scanline.x = 3;
-
-	scanline.curVert = Vertex{ {3, 100, 1, 1}, {1.0, 1.0, 1.0 }, 1.0f };
-	scanline.step = Vertex{ {1, 0, 1, 1}, {0,0, 0}, 1.0f };
-	scanline.w = 600;
-	DrawScanline(scanline);*/
-
-	//Vertex m[3] = {
-	//	{ { 0.4f, 0.3f, 1.0f, 1 } ,{ 1, 1, 1 }, 1 },
-	//	{ { 0.1f, 0.2f, 1.0f, 1 } ,{ 1, 1, 1 }, 1 },
-	//	{ { 0.4f, 0.1f, 1.0f, 1 } ,{ 1, 1, 1 }, 1 }
-	//};
-
-	//DrawPrimitive(m[0], m[1], m[2]);
+	
 
 }
 void Renderer::UpdateScene() {
 	Drawer::UpdateScene();
 }
 
+
+void Renderer::OnMouseDown(WPARAM wParam, int x, int y) {
+	lastPoint.x = x;
+	lastPoint.y = y;
+	SetCapture(mhMainWnd);
+}
+
+void Renderer::OnMouseUp(WPARAM wParam, int x, int y) {
+	ReleaseCapture();
+}
+
+void Renderer::OnMouseMove(WPARAM wParam, int x, int y) {
+	if ((wParam & MK_LBUTTON) != 0)
+	{
+		
+		float dx = XMConvertToRadians(0.25f*static_cast<float>(x - lastPoint.x));
+
+	
+		mTheta += dx;
+	}
+
+	lastPoint.x = x;
+	lastPoint.y = y;
+}
+
+LRESULT Renderer::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	
+	switch (msg) {
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		return 0;
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+		OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		return 0;
+
+	case WM_MOUSEMOVE:
+		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+
+	default:
+		return MainWindow::MsgProc(hwnd, msg, wParam, lParam);
+	}
+}
+
 void Renderer::RenderTrapezoid(Trapezoid& trape) {
 	int top = (int)(trape.top + 0.5f);
 	int bottom = (int)(trape.bottom + 0.5f);
-	for (int i = top; i <= bottom; ++i) {
+	for (int i = top; i <= bottom; ++i) {		
 		if (i >= 0 && i < mClientHeight) {
 			trape.ComputeCurVertices((int)(i + 0.5f));
 			Scanline scanline = trape.GenerateScanlineByHeight(i);
@@ -125,11 +162,15 @@ void Renderer::DrawPlane(int i1, int i2, int i3, int i4) {
 	DrawPrimitive(v3, v4, v1);
 }
 
-void Renderer::DrawBox(float theta) {
+void Renderer::DrawBox() {
 	Matrix4x4 m;
-	transform.world.SetRotate({ 0, 1, 0 , 1 }, theta);
+	transform.world.SetRotate({ 0, 1, 0 , 1 }, mTheta);
 	transform.CountWVProj();
 
+	WCHAR str[1000];
+	swprintf(str, L"%.2f\n", mTheta);
+
+	//OutputDebugString(str);
 	//Vertex mesh[8] = {
 	//0	{ { -1, -1, -1, 1 } ,{ 1, 1, 1 }, 1 },
 	//1	{ { -1, -1, 1, 1 } ,{ 1, 1, 1 }, 1 },
@@ -141,12 +182,13 @@ void Renderer::DrawBox(float theta) {
 	//7	{ { 1, 1, 1, 1 } ,{ 1, 1, 1 }, 1 }
 	//};
 
-	DrawPlane(1, 5, 7, 3);
-//	DrawPlane(5, 4, 6, 7);
-	//DrawPlane(4, 0, 2, 6);
-//	DrawPlane(0, 1, 3, 2);
-//	DrawPlane(3, 7, 6, 2);
-//	DrawPlane(0, 4, 5, 1);
+
+	DrawPlane(4, 5, 7, 6);
+	DrawPlane(5, 1, 3, 7);
+	DrawPlane(1, 0, 2, 3);
+	DrawPlane(4, 0, 2, 6);
+	DrawPlane(6, 7, 3, 2);
+	DrawPlane(0, 1, 5, 4);
 
 }
 void Renderer::LookAtZero(float x, float y, float z) {

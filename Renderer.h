@@ -17,6 +17,7 @@ public:
 	virtual void DrawScene() override;
 	virtual bool Init(bool customized = 0, int *height = nullptr, int *width = nullptr) override;
 
+	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void RenderTrapezoid(Trapezoid& trape);
 	
@@ -27,9 +28,15 @@ public:
 
 	void DrawPlane(int i1, int i2, int i3, int i4);
 
-	void DrawBox(float theta);
+	void DrawBox();
 
 	void LookAtZero(float x, float y, float z);
+
+	virtual void OnMouseDown(WPARAM wParam, int x, int y) override;
+
+	virtual void OnMouseUp(WPARAM wParam, int x, int y) override;
+
+	virtual void OnMouseMove(WPARAM wParam, int x, int y) override;
 
 public:
 
@@ -44,4 +51,8 @@ public:
 		{ { 1, 1, 1, 1 } ,{ 0.2f, 0.3f, 0.5f }, 1 }
 	};
 	Transform transform;
+
+	BasicMath::SceenPoint lastPoint;
+
+	float mTheta = 0.0f;
 };

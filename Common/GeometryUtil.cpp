@@ -81,7 +81,7 @@ std::vector<Trapezoid> Trapezoid::GenerateTrapezoid(const Vertex& v1, const Vert
 		p1 = p3;
 		p3 = temp;
 	}
-	if (p2.pos[1] > p2.pos[1]) {
+	if (p2.pos[1] > p3.pos[1]) {
 		temp = p2;
 		p2 = p3;
 		p3 = temp;
@@ -185,9 +185,15 @@ Scanline Trapezoid::GenerateScanlineByHeight(int y) {
 	scanline.x = (int)(curLeftVert.pos[0] + 0.5f);
 	scanline.w = (int)(curRightVert.pos[0] + 0.5f) - scanline.x;
 	
+	
 	Vertex delta = curRightVert - curLeftVert;
 
 	scanline.step = delta * (1.0f /  scanline.w);
+
+	if (scanline.w < 0) {
+		scanline.w = 0;
+		scanline.step = Vertex{ {0, 0, 0, 1}, {0, 0, 0}, 1 };
+	}
 
 	return scanline;
 
@@ -209,6 +215,9 @@ Transform::Transform(int screenW, int screenH) {
 	wvprj.SetIdentity();
 	w = (float)screenW;
 	h = (float)screenH;
+
+	project.SetPerspective(0.5f * 3.14f, w / h, 1.0f, 500.0f);
+
 	CountWVProj();
 }
 
