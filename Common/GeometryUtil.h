@@ -67,6 +67,8 @@ namespace GeometryUtil{
 		float w;
 		float h;
 
+		Transform();
+
 		Transform(int screenW, int screenH);
 
 		void CountWVProj();

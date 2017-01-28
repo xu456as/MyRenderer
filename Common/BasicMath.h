@@ -32,7 +32,10 @@ namespace BasicMath
 			v[2] = z;v[3] = w;
 		}
 		Vector4(const Vector4& x){
-			memcpy(v, x.v, 4 * sizeof(float));
+			//memcpy(v, x.v, 4 * sizeof(float));
+			for (int i = 0; i < 4; ++i) {
+				v[i] = x.v[i];
+			}
 		}
 
 		float operator[] (int i) const {
@@ -131,10 +134,19 @@ namespace BasicMath
 
 
 	template<typename T>
-	T Clamp(T x, T min, T max);
+	T Clamp(T x, T min, T max) {
+		if (x < min)
+			return min;
+		else if (x > max)
+			return max;
+		else
+			return x;
+	}
 
 	template<typename T>
-	T Lerp(T from, T to, float x);
+	T Lerp(T from, T to, float x) {
+		return from + (to - from) * x;
+	}
 
 	int gcd(int x, int y);
 

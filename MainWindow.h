@@ -26,7 +26,7 @@ public :
 	virtual void OnMouseUp(WPARAM btnState, int x, int y)  { }
 	virtual void OnMouseMove(WPARAM btnState, int x, int y){ }
 
-protected:
+public:
 	HINSTANCE mhAppInst;
 	HWND      mhMainWnd;
 

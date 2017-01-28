@@ -1,4 +1,11 @@
 ﻿  BasicMath.cpp
-j:\project\cpp\myrenderer\common\basicmath.cpp(34): error C2027: use of undefined type 'BasicMath::Vector4::Matrix4x4'
-  j:\project\cpp\myrenderer\common\basicmath.h(14): note: see declaration of 'BasicMath::Vector4::Matrix4x4'
-j:\project\cpp\myrenderer\common\basicmath.cpp(34): error C2228: left of '.m' must have class/struct/union
+  Generating Code...
+  Compiling...
+  Renderer.cpp
+j:\project\cpp\myrenderer\renderer.cpp(50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GeometryUtil.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Drawer.cpp
+  MyRenderer.vcxproj -> J:\Project\cpp\MyRenderer\Debug\MyRenderer.exe
+  MyRenderer.vcxproj -> J:\Project\cpp\MyRenderer\Debug\MyRenderer.pdb (Full PDB)

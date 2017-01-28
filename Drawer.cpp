@@ -9,6 +9,7 @@
 //	return theApp.Run();
 //}
 
+
 Drawer::Drawer(HINSTANCE Hinst)
 :MainWindow(Hinst), globalMem(nullptr), globalPtr(nullptr), frameBuf(nullptr), zBuf(nullptr)
 {
@@ -49,13 +50,15 @@ void Drawer::DrawPixel(int x,int y, UINT32 color){
 		return;
 	if(y<0 || y>=mClientHeight)
 		return;
+	//MessageBox(0, L"Draw pixed", L"draw pixel", 0);
 
 	frameBuf[y][x] = color;
 
 }
 
-void Drawer::DrawLine(BasicMath::SceenPoint p1, BasicMath::SceenPoint p2, UINT32 color){
 
+void Drawer::DrawLine(BasicMath::SceenPoint p1, BasicMath::SceenPoint p2, UINT32 color){
+	//MessageBox(0, L"Draw Line", L"draw line", 0);
 	int absX = abs(p1.x - p2.x);
 	int absY = abs(p1.y - p2.y);
 	if(absX==0 && absY==0){
@@ -132,12 +135,13 @@ void Drawer::UpdateScene(){
 
 
 void Drawer::DrawScene(){
+	//MessageBox(0, L"21", L"11", 0);
 	DrawLine({ 0, 0 }, { 400, 425 }, -1);
 }
 
 void Drawer::ClearBuffer() {
 	for (int i = 0; i < mClientHeight; ++i) {
-		memset(frameBuf[i], -1, sizeof(UINT32) * mClientWidth);
+		memset(frameBuf[i], 0, sizeof(UINT32) * mClientWidth);
 		memset(zBuf[i], 0, sizeof(float) * mClientWidth);
 	}
 }

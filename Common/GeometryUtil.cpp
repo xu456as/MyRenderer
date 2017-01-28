@@ -131,13 +131,13 @@ std::vector<Trapezoid> Trapezoid::GenerateTrapezoid(const Vertex& v1, const Vert
 	down.bottom = p3.pos[1];
 
 	float k = (p3.pos[1] - p1.pos[1]) / (p2.pos[1] - p1.pos[1]);
-	int prjX2 = (int)(p1.pos[0] + (p2.pos[0] - p1.pos[0]) * k);
+	float prjX2 = (p1.pos[0] + (p2.pos[0] - p1.pos[0]) * k);
 
 
 	//angle in left side
 	if (prjX2 < p3.pos[0]) {
 		up.left.v1 = p1;
-		up.left.v1 = p2;
+		up.left.v2 = p2;
 		up.right.v1 = p1;
 		up.right.v2 = p3;
 		down.left.v1 = p2;
@@ -192,6 +192,15 @@ Scanline Trapezoid::GenerateScanlineByHeight(int y) {
 	return scanline;
 
 }
+
+Transform::Transform() {
+	world.SetIdentity();
+	view.SetIdentity();
+	project.SetIdentity();
+	wvprj.SetIdentity();
+	CountWVProj();
+}
+
 Transform::Transform(int screenW, int screenH) {
 	float aspectRatio = (float)screenW / screenH;
 	world.SetIdentity();

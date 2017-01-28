@@ -16,7 +16,7 @@ mClientWidth(800),
 mClientHeight(600),
 mhMainWnd(0)
 {
-
+	//MessageBox(0, L"Main wondow con", L"mwc", 0);
 	gmainWindow = this;
 }
 
@@ -33,6 +33,7 @@ HWND MainWindow::mainWnd() const {
 
 int MainWindow::Run()
 {
+
 	MSG msg = {0};
 
 
@@ -46,7 +47,7 @@ int MainWindow::Run()
 		}
 		// Otherwise, do animation/game stuff.
 		else
-		{
+		{			
 			DrawScene();
 			UpdateScene();
 			Sleep(100);
