@@ -13,17 +13,6 @@ bool Renderer::Init(bool customized, int *height , int *width) {
 	return Drawer::Init(customized, height, width);
 }
 
-void Renderer::DrawScene() {	
-	ClearBuffer();
-
-
-	LookAtZero(5, 0, 0);
-
-	DrawBox();
-
-	
-
-}
 void Renderer::UpdateScene() {
 	Drawer::UpdateScene();
 }
@@ -107,24 +96,30 @@ void Renderer::DrawScanline(const Scanline& scanline) {
 		if (i < 0 || i >= mClientWidth)
 			break;
 
-		float rhw = curVert.rhw;
-		float w = 1.0f / rhw;
+		float rhw = curVert.rhw;	
 		
-		curZBufLn[i] = rhw;
+		assert(rhw > 0);
 
-		float r = curVert.color.r * w;
-		float g = curVert.color.g * w;
-		float b = curVert.color.b * w;
+		if (rhw >= curZBufLn[i]) {
 
-		int R = (int)(255.0f * r);
-		int G = (int)(255.0f * g);
-		int B = (int)(255.0f * b);
+			curZBufLn[i] = rhw;
 
-		curFBufLn[i] = (R << 16) | (G << 8) | (B);
+			float w = 1.0f / rhw;
+			float r = curVert.color.r * w;
+			float g = curVert.color.g * w;
+			float b = curVert.color.b * w;
+
+			int R = (int)(255.0f * r);
+			int G = (int)(255.0f * g);
+			int B = (int)(255.0f * b);
+
+			curFBufLn[i] = (R << 16) | (G << 8) | (B);
+		}
 
 		curVert = curVert + scanline.step;
 	}
 }
+
 
 void Renderer::DrawPrimitive(const Vertex& v1, const Vertex& v2, const Vertex& v3) {
 
@@ -181,8 +176,8 @@ void Renderer::DrawBox() {
 	//6	{ { 1, 1, -1, 1 } ,{ 1, 1, 1 }, 1 },
 	//7	{ { 1, 1, 1, 1 } ,{ 1, 1, 1 }, 1 }
 	//};
-
-
+	
+	
 	DrawPlane(4, 5, 7, 6);
 	DrawPlane(5, 1, 3, 7);
 	DrawPlane(1, 0, 2, 3);
@@ -190,6 +185,14 @@ void Renderer::DrawBox() {
 	DrawPlane(6, 7, 3, 2);
 	DrawPlane(0, 1, 5, 4);
 
+}
+void Renderer::DrawScene() {
+	ClearBuffer();
+
+
+	LookAtZero(5, 0, 0);
+
+	DrawBox();
 }
 void Renderer::LookAtZero(float x, float y, float z) {
 	Vector4 eye{ x, y, z, 1 };

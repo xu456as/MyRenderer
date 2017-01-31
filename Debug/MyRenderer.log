@@ -37,8 +37,8 @@ j:\june2012sdk\include\xnamathconvert.inl(4832): warning C4838: conversion from 
 j:\june2012sdk\include\xnamathvector.inl(1269): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
 j:\june2012sdk\include\xnamathmisc.inl(518): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
 j:\june2012sdk\include\xnamathmisc.inl(519): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
-j:\project\cpp\myrenderer\renderer.cpp(87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-j:\project\cpp\myrenderer\renderer.cpp(171): warning C4996: 'swprintf': function has been changed to conform with the ISO C standard, adding an extra character count parameter. To use the traditional Microsoft version, set _CRT_NON_CONFORMING_SWPRINTFS.
+j:\project\cpp\myrenderer\renderer.cpp(76): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+j:\project\cpp\myrenderer\renderer.cpp(166): warning C4996: 'swprintf': function has been changed to conform with the ISO C standard, adding an extra character count parameter. To use the traditional Microsoft version, set _CRT_NON_CONFORMING_SWPRINTFS.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\corecrt_wstdio.h(1820): note: see declaration of 'swprintf'
   MyRenderer.vcxproj -> J:\Project\cpp\MyRenderer\Debug\MyRenderer.exe
   MyRenderer.vcxproj -> J:\Project\cpp\MyRenderer\Debug\MyRenderer.pdb (Full PDB)

@@ -192,7 +192,7 @@ Scanline Trapezoid::GenerateScanlineByHeight(int y) {
 
 	if (scanline.w < 0) {
 		scanline.w = 0;
-		scanline.step = Vertex{ {0, 0, 0, 1}, {0, 0, 0}, 1 };
+		scanline.step = Vertex{ {0, 0, 0, 1}, {0, 0, 0}, 0.0f };
 	}
 
 	return scanline;
@@ -247,6 +247,8 @@ int Transform::CheckCVV(const Vertex& v) {
 void Transform::Homogenize(Vertex& v) {
 
 	float rhw = (1.0f / v.pos[3]);
+
+	v.rhw = rhw;
 
 	v.pos = v.pos * rhw;
 
