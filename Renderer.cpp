@@ -105,9 +105,10 @@ void Renderer::DrawScanline(const Scanline& scanline) {
 			curZBufLn[i] = rhw;
 
 			float w = 1.0f / rhw;
-			float r = curVert.color.r * w;
-			float g = curVert.color.g * w;
-			float b = curVert.color.b * w;
+
+			float r = curVert.color.r ;
+			float g = curVert.color.g ;
+			float b = curVert.color.b ;
 
 			int R = (int)(255.0f * r);
 			int G = (int)(255.0f * g);
