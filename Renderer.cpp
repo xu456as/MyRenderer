@@ -71,9 +71,11 @@ LRESULT Renderer::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 void Renderer::RenderTrapezoid(Trapezoid& trape) {
 	int top = (int)(trape.top + 0.5f);
 	int bottom = (int)(trape.bottom + 0.5f);
-	for (int i = top; i <= bottom; ++i) {		
+
+
+	for (int i = top; i <= bottom; ++i) {
 		if (i >= 0 && i < mClientHeight) {
-			trape.ComputeCurVertices((int)(i + 0.5f));
+			trape.ComputeCurVertices((i + 0.5f));
 			Scanline scanline = trape.GenerateScanlineByHeight(i);
 			DrawScanline(scanline);
 		}
@@ -97,14 +99,10 @@ void Renderer::DrawScanline(const Scanline& scanline) {
 			break;
 
 		float rhw = curVert.rhw;	
-		
-		assert(rhw > 0);
 
 		if (rhw >= curZBufLn[i]) {
 
 			curZBufLn[i] = rhw;
-
-			float w = 1.0f / rhw;
 
 			float r = curVert.color.r ;
 			float g = curVert.color.g ;
@@ -163,10 +161,10 @@ void Renderer::DrawBox() {
 	transform.world.SetRotate({ 0, 1, 0 , 1 }, mTheta);
 	transform.CountWVProj();
 
-	WCHAR str[1000];
-	swprintf(str, L"%.2f\n", mTheta);
-
+	//WCHAR str[1000];
+	//swprintf(str, L"%.2f\n", mTheta);
 	//OutputDebugString(str);
+
 	//Vertex mesh[8] = {
 	//0	{ { -1, -1, -1, 1 } ,{ 1, 1, 1 }, 1 },
 	//1	{ { -1, -1, 1, 1 } ,{ 1, 1, 1 }, 1 },

@@ -172,6 +172,12 @@ void Trapezoid::ComputeCurVertices(float y) {
 	float t1 = (y - left.v1.pos[1]) / s1;
 	float t2 = (y - right.v1.pos[1]) / s2;
 
+	if (t1 >= 1.0f)
+		t1 = 1.0f;
+
+	if (t2 >= 1.0f)
+		t2 = 1.0f;
+
 	curLeftVert = Lerp(left.v1, left.v2, t1);
 	curRightVert = Lerp(right.v1, right.v2, t2);
 }
@@ -183,16 +189,15 @@ Scanline Trapezoid::GenerateScanlineByHeight(int y) {
 	scanline.y = y;
 	scanline.curVert = curLeftVert;
 	scanline.x = (int)(curLeftVert.pos[0] + 0.5f);
-	scanline.w = (int)(curRightVert.pos[0] + 0.5f) - scanline.x;
 	
-	
-	Vertex delta = curRightVert - curLeftVert;
-
-	scanline.step = delta * (1.0f /  scanline.w);
-
-	if (scanline.w < 0) {
+	if (EqualF(curLeftVert.pos[0], curRightVert.pos[0])) {
 		scanline.w = 0;
 		scanline.step = Vertex{ {0, 0, 0, 1}, {0, 0, 0}, 0.0f };
+	}
+	else {
+		scanline.w = (int)(curRightVert.pos[0] + 0.5f) - scanline.x;
+		Vertex delta = curRightVert - curLeftVert;
+		scanline.step = delta * (1.0f / scanline.w);
 	}
 
 	return scanline;
