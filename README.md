@@ -3,7 +3,7 @@
 -------------------------------------------------------------------------------
 My practice project for software renderering.
 
-*Main progress:*
+##Main progress:
 ---------------------------------------------------------------------------------
 1. A 2D buffer which could write a pixel and then map it to the target screen. 
 2. Draw lines in the 2D buffer.
@@ -11,14 +11,14 @@ My practice project for software renderering.
 4. Depending on the three input vertices , generate a 2D triangle.
 5. Depth test , decide if a pixel could be drawn according to its depth information.
 
-*Runtime environment*
+##Runtime environment
 ---------------------------------------------------------------------------------------
 Windows 10 and VS2015
 
-*Print screen*
-_________________________________________________________________________________________
-![image](https://github.com/ButBueatiful/img/pic1.PNG) 
-![image](https://github.com/ButBueatiful/img/pic2.PNG)
+##Print screen
+---------------------------------------------------------------------------------------
+![image](https://github.com/xu456as/MyRenderer/img/pic1.PNG) 
+![image](https://github.com/xu456as/MyRenderer/img/pic2.PNG)
 
  
 
