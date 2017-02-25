@@ -17,8 +17,8 @@ Windows 10 and VS2015
 
 *Print screen*
 _________________________________________________________________________________________
-![pic1](.\img\pic1.PNG) 
-![pic2](.\img\pic2.PNG)
+![image](https://github.com/ButBueatiful/img/pic1.PNG) 
+![image](https://github.com/ButBueatiful/img/pic2.PNG)
 
  
 
