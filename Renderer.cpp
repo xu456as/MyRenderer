@@ -1,5 +1,4 @@
 #include<Renderer.h>
-#include<xnamath.h>
 #include<assert.h>
 Renderer::Renderer(HINSTANCE hInst)
 	:Drawer(hInst), transform(mClientWidth, mClientHeight), lastPoint{0, 0}
@@ -32,7 +31,7 @@ void Renderer::OnMouseMove(WPARAM wParam, int x, int y) {
 	if ((wParam & MK_LBUTTON) != 0)
 	{
 		
-		float dx = XMConvertToRadians(0.25f*static_cast<float>(x - lastPoint.x));
+		float dx = x - lastPoint.x;
 
 	
 		mTheta += dx;
