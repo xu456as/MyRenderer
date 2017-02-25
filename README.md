@@ -1,4 +1,4 @@
-# MyRrederer
+# MyRenderer
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 My practice project for software renderering.
@@ -17,8 +17,8 @@ Windows 10 and VS2015
 
 ##Print screen
 ---------------------------------------------------------------------------------------
-![image](https://github.com/xu456as/MyRenderer/img/pic1.PNG) 
-![image](https://github.com/xu456as/MyRenderer/img/pic2.PNG)
+![image](https://github.com/xu456as/MyRenderer/raw/master/img/pic1.PNG) 
+![image](https://github.com/xu456as/MyRenderer/raw/master/img/pic2.PNG)
 
  
 
